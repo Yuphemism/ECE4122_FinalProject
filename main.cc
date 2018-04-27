@@ -8,92 +8,45 @@
 using namespace std;
 
 int main () {
-    Pawn b(Square(1,4), "white");
-    b.updateMoves();
-    cout << "Pawn at " << b.getPosition().x << "," << b.getPosition().y << endl;
-    for(Square s : b.getMoves()){
-        cout << s.x << "," << s.y << endl;
+    //instantiate Board 8x8
+    Piece board[8, 8];
+    SetupBoard();
+    while(){
+        
     }
-    b.moveTo(Square(1,4));
-    b.updateMoves();
-    cout << "Pawn at " << b.getPosition().x << "," << b.getPosition().y << endl;
-    for(Square s : b.getMoves()){
-        cout << s.x << "," << s.y << endl;
-    }
-
-
-
-
-
-//    Square sq1(1,4);
-//    Square sq2(3,5);
-//    Knight n(sq1,"black");
-////    Knight n2("black");
-//    Bishop b(Square(5,7), "white");
-//    Queen q("white");
-//
-//    n.updateMoves();
-//
-//    cout<< "Knight\n";
-//    for(Square s : n.getMoves()){
-//        std::cout<< s.x << ", "<< s.y<<"\n";
-//    }
-//
-//    n.moveTo(sq2);
-//    n.updateMoves();
-//
-//    cout<<"Knight after move\n";
-//
-//    for(Square s : n.getMoves()){
-//        std::cout<< s.x << ", "<< s.y<<"\n";
-//    }
-//
-//    cout<< "Bishop\n";
-//    b.updateMoves();
-//    for(Square s : b.getMoves()){
-//        std::cout<< s.x << ", "<< s.y<<"\n";
-//    }
-//    b.moveTo(Square(6,6));
-//
-//    cout << "Bishop after Move" << endl;
-//
-//    b.updateMoves();
-//    for(Square s : b.getMoves()){
-//        std::cout<< s.x << ", "<< s.y<<"\n";
-//    }
-//
-//    cout<< "Queen\n";
-//    q.updateMoves();
-//    for(Square s : q.getMoves()){
-//        std::cout<< s.x << ", "<< s.y<<"\n";
-//    }
-//// initialize board
-//    //BoardSq  board[8][8];
-//
-//    Bishop *white_bishops;
-//    Piece * board;
-//    for (int i=0; i < 8; i++) {
-//        Square sq(1,i);
-//        //white_bishops[i] = new Pawn(sq,"white");
-//    }
-//
-////    for(int i = 0; i < 8; i++) {
-////        if( i == 1 ) {
-////            for (int j = 0; j < 8; j++) {
-////
-////                board[i][j].updateSQ(white_pawns[j]);
-////                cout<< "board square content \n";
-////                cout<< board[1][j].getPiece()<<"\n";
-////            }
-////        }
-////    }
-////
-////   cout<< "board square content";
-////   for(int i =0; i < 8; i++) {
-////       cout<< board[1][i].getPiece()<<"\n";
-////       delete board[1][i].piece_type;
-////   }
-//
-
     return 0;
+}
+
+void SetupBoard(std_string ) {
+    //Pawns
+    for(int i = 0; i < 8; i++) {
+        board[i, 1] = new Pawn(i, 1, 'b');
+        board[i, 6] = new Pawn(i, 6, 'w');
+    }
+    
+    //Rooks
+    board[0][0] = new Rook(0, 0, 'b');
+    board[7][0] = new Rook(7, 0, 'b');
+    board[0][7] = new Rook(0, 7, 'w');
+    board[7][7] = new Rook(7, 7, 'w');
+    
+    //Knights
+    board[1][0] = new Knight(1, 0, 'b');
+    board[6][0] = new Knight(6, 0, 'b');
+    board[1][7] = new Knight(1, 7, 'w');
+    board[6][7] = new Knight(6, 7, 'w');
+    
+    //Bishops
+    board[2][0] = new Bishop(2, 0, 'b');
+    board[5][0] = new Bishop(5, 0, 'b');
+    board[2][7] = new Bishop(2, 7, 'w');
+    board[5][7] = new Bishop(5, 7, 'w');
+    
+    //Queens
+    board[3][0] = new Queen(3, 0, 'b');
+    board[4][7] = new Queen(4, 7, 'w');
+    
+    //Kings
+    board[4][0] = new King(4, 0, 'b');
+    board[3][7] = new King(3, 7, 'w');
 }

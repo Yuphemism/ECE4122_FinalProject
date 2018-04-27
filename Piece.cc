@@ -2,16 +2,22 @@
 
 
 
-Piece::Piece(Square square, std::string color) {
-    position = square;
+Piece::Piece(int x_pos, int y_pos, std::string color) {
+    x = x_pos;
+    y = y_pos;
     player = color;
-
 }
-Piece::Piece() {
-    position.x = 0;
-    position.y = 0;
-    player = "";
 
+Piece::Piece() {
+    x = 0;
+    y = 0;
+    player = "";
+}
+
+
+void Piece::moveTo(int x_pos, int y_pos) {
+    x = x_pos;
+    y = y_pos;
 }
 
 bool Piece::validPosition(int x_pos, int y_pos) {
