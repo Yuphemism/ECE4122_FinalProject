@@ -7,6 +7,27 @@
 #include <iostream>
 using namespace std;
 
+void move(std::vector<std::vector<Piece*> > b, int init_x, int init_y, int end_x, int end_y) {
+    Square initial(init_x, init_y);
+    Square dest(end_x, end_y);
+    
+    //get the move with the possible move set
+    b[init_x][init_y] -> updateMoves();
+    std::vector<Square> possibleMoves = b[init_x][init_y] -> getMoves();
+    bool moved = false;
+    //check if the move is within the set, if not print a statement that lets them know it isn't
+    for(auto &pM : possibleMoves) {
+        if(pM == dest) {
+            b[init_x][init_y] -> moveTo(dest);
+            b[end_x][end_y] = b[init_x][init_y];
+            b[init_x][init_y] = new Piece(initial, "none");
+        }
+    }
+    if(!moved) {
+        cout << "That is an invalid move.\n";
+    }
+}
+
 int main () {
     
 // initialize board
@@ -55,7 +76,7 @@ int main () {
     }
     
 //Play the game
-    
+    int init_x, init_y, end_x, end_y;
     while(true) {
         //print out board
         for(int y = 0; y < 8; y++){
@@ -64,8 +85,16 @@ int main () {
             }
             cout << "\n";
         }
+        cout << "Please input the initial x coordinate: ";
+        cin >> init_x;
+        cout << "Please input the initial y coordinate: ";
+        cin >> init_y;
+        cout << "Please input the destination x coordinate: ";
+        cin >> end_x;
+        cout << "Please input the destination y coordinate: ";
+        cin >> end_y;
+        move(board, init_x, init_y, end_x, end_y);
     }
-
 
     return 0;
 }
