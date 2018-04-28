@@ -6,7 +6,7 @@
 Queen::Queen(Square square, std::string color) {
     position = square;
     player = color;
-    if(color == "white" || color == "White" || color == "WHITE" || "w" || "W") {
+    if(color == "white" || color == "White" || color == "WHITE" || color == "w" || color == "W") {
         piece_name = 'Q';
     } else {
         piece_name = 'q';
