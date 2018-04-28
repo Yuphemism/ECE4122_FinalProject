@@ -71,4 +71,4 @@ std::vector<Square> Queen::getMoves() {
 
 Square Queen::getPosition() {return position;}
 
-char Queen::getName() {return piece_name;}
+char Queen::getName() {return 'Q';}

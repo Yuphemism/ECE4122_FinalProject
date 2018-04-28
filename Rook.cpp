@@ -50,4 +50,4 @@ std::vector<Square> Rook::getMoves() {
     return moveList;
 }
 
-char Rook::getName() {return piece_name;}
+char Rook::getName() {return 'R';}

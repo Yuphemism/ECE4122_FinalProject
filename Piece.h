@@ -7,29 +7,30 @@
 
 class Piece {
 protected:
-		int x, y;
+		Square current_position;
         std::vector<Square> moveList; // list of possible squares that the piece can move to
 		std::string player;
 
 
 	public:
-		Piece(int x, int y, std::string color); // Constructor
+		Piece(Square set_position, std::string color); // Constructor
         Piece();
+//		~Piece();
 
         //************ Member Functions ****************
         // move piece position of piece
-        void moveTo(int x, int y);
+        void moveTo(Square current_position);
 
         // validates that x,y pair on the board
         bool validPosition(int x_val, int y_val);
 
         // get list of potential moves
-        virtual std::vector<Square> getMoves() = 0;
+    std::vector<Square> getMoves();
 
         // update the list of squares the piece can move to
-		virtual void updateMoves() = 0;
+        void updateMoves();
 
-        virtual char getName() = 0;
+        char getName();
 
 
 };

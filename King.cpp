@@ -73,4 +73,4 @@ std::vector<Square> King::getMoves() {
     return moveList;
 }
 
-char King::getName() {return piece_name;}
+char King::getName() {return 'K';}

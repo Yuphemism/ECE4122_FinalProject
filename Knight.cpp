@@ -83,4 +83,4 @@ std::vector<Square> Knight::getMoves() {
     return moveList;
 }
 
-char Knight::getName() {return piece_name;}
+char Knight::getName() {return 'T';}

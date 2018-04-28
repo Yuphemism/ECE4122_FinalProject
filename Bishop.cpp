@@ -52,4 +52,4 @@ std::vector<Square> Bishop::getMoves() {
 
 Square Bishop::getPosition() {return position;}
 
-char Bishop::getName() {return piece_name;}
+char Bishop::getName() {return 'B';}

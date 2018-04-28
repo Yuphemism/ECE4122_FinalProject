@@ -55,7 +55,7 @@ std::vector<Square> Pawn::getMoves() {
 Square Pawn::getPosition() {return position;}
 
 
-char Pawn::getName() {return piece_name;}
+char Pawn::getName() {return 'P';}
 
 //Pawn &Pawn:: operator= (const Pawn pawn) {
 //    this->position = pawn.position;
