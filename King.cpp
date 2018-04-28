@@ -6,7 +6,7 @@
 King::King(Square square, std::string color) {
     position = square;
     player = color;
-    if(color == "white" || color == "White" || color == "WHITE" || "w" || "W") {
+    if(color == "white" || color == "White" || color == "WHITE" || color == "w" || color == "W") {
         piece_name = 'K';
     } else {
         piece_name = 'k';

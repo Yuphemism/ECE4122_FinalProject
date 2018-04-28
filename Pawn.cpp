@@ -3,7 +3,15 @@
 //
 
 #include "Pawn.h"
-Pawn::Pawn(Square square, std::string color) : position(square), player(color) {piece_name = 'P';};
+Pawn::Pawn(Square square, std::string color) {
+        position = square;
+        player = color;
+        if (color == "W" || color == "w" || color == "white" || color == "White")
+            piece_name = 'P';
+        else
+            piece_name = 'p';
+
+}
 
 
 void Pawn::updateMoves() {
