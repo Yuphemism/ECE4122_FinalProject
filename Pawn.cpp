@@ -3,7 +3,7 @@
 //
 
 #include "Pawn.h"
-Pawn::Pawn(Square square, std::string color) : position(square), player(color) {};
+Pawn::Pawn(Square square, std::string color) : position(square), player(color) {piece_name = 'P';};
 
 
 void Pawn::updateMoves() {
@@ -55,7 +55,7 @@ std::vector<Square> Pawn::getMoves() {
 Square Pawn::getPosition() {return position;}
 
 
-char Pawn::getName() {return 'P';}
+char Pawn::getName() {return piece_name;}
 
 //Pawn &Pawn:: operator= (const Pawn pawn) {
 //    this->position = pawn.position;

@@ -4,7 +4,7 @@
 
 #include "Rook.h"
 
-Rook::Rook(Square square, std::string color) : position(square), player(color) {};
+Rook::Rook(Square square, std::string color) : position(square), player(color) {piece_name = 'R';};
 
 Rook::Rook(std::string color) {
     player = color;
@@ -50,4 +50,4 @@ std::vector<Square> Rook::getMoves() {
     return moveList;
 }
 
-char Rook::getName() {return 'R';}
+char Rook::getName() {return piece_name;}

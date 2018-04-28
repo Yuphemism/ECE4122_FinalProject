@@ -10,7 +10,7 @@ protected:
 		Square current_position;
         std::vector<Square> moveList; // list of possible squares that the piece can move to
 		std::string player;
-
+        char piece_name;
 
 	public:
 		Piece(Square set_position, std::string color); // Constructor
@@ -25,12 +25,12 @@ protected:
         bool validPosition(int x_val, int y_val);
 
         // get list of potential moves
-    std::vector<Square> getMoves();
+        virtual std::vector<Square> getMoves();
 
         // update the list of squares the piece can move to
-        void updateMoves();
+        virtual void updateMoves();
 
-        char getName();
+        virtual char getName();
 
 
 };

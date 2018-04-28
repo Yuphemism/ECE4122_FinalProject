@@ -13,14 +13,16 @@ void move(std::vector<std::vector<Piece*> > b, int init_x, int init_y, int end_x
     
     //get the move with the possible move set
     b[init_x][init_y] -> updateMoves();
+    cout << b[init_x][init_y] -> getName() << "\n";
     std::vector<Square> possibleMoves = b[init_x][init_y] -> getMoves();
     bool moved = false;
     //check if the move is within the set, if not print a statement that lets them know it isn't
     for(auto &pM : possibleMoves) {
         if(pM == dest) {
-            b[init_x][init_y] -> moveTo(dest);
+            b[init_x][init_y]->moveTo(dest);
             b[end_x][end_y] = b[init_x][init_y];
             b[init_x][init_y] = new Piece(initial, "none");
+            moved = true;
         }
     }
     if(!moved) {
@@ -66,10 +68,13 @@ int main () {
                 //Queens
                 Queen* queen = new Queen(Square(x, y), c);
                 board[y].push_back(queen);
-            } else {
+            } else if((y == 0 || y == 7) && x == 4){
                 //Kings
                 King* king = new King(Square(x, y), c);
                 board[y].push_back(king);
+            } else {
+                Pawn* pawn = new Pawn(Square(x, y), c);
+                board[y].push_back(pawn);
             }
             
         }
