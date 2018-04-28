@@ -16,7 +16,7 @@ Piece::Piece() {
 void Piece::moveTo(Square newPosition) {
     current_position = newPosition;
 }
-void updateMoves(){
+void Piece::updateMoves(){
 }
 std::vector<Square> Piece::getMoves(){
     std::vector<Square> empty;
