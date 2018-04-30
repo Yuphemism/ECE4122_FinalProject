@@ -30,7 +30,12 @@ bool Piece::validPosition(int x_pos, int y_pos) {
 char Piece::getName(){
     return piece_name;
 }
-
+std::string Piece::getColor() {
+    return player;
+}
+Square Piece::getPos() {
+    return current_position;
+}
 
 
 

@@ -24,6 +24,12 @@ protected:
         // validates that x,y pair on the board
         bool validPosition(int x_val, int y_val);
 
+        // get the color of the piece
+        std::string getColor();
+
+        //get current location
+        Square getPos();
+
         // get list of potential moves
         virtual std::vector<Square> getMoves();
 
