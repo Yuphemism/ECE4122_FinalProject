@@ -35,6 +35,10 @@ std::string Piece::getPlayer(){
     return player;
 }
 
+Square Piece::getPos(){
+    return current_position;
+}
+
 
 
 
