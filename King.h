@@ -22,7 +22,7 @@ public:
 
     void moveTo(Square newPosition);
 
-    void updateMoves(); // update the MoveList
+    void updateMoves(std::vector<std::vector<Piece*>> &board); // update the MoveList
 
     std::vector<Square> getMoves();
 

@@ -18,7 +18,7 @@ Piece::Piece() {
 void Piece::moveTo(Square newPosition) {
     current_position = newPosition;
 }
-void Piece::updateMoves(){
+void Piece::updateMoves(std::vector<std::vector<Piece*>> &board){
 }
 std::vector<Square> Piece::getMoves(){
     std::vector<Square> empty;
@@ -30,12 +30,11 @@ bool Piece::validPosition(int x_pos, int y_pos) {
 char Piece::getName(){
     return piece_name;
 }
-std::string Piece::getColor() {
+
+std::string Piece::getPlayer(){
     return player;
 }
-Square Piece::getPos() {
-    return current_position;
-}
+
 
 
 

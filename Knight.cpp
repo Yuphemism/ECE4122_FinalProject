@@ -18,55 +18,46 @@ Knight::Knight(Square square, std::string color) {
 
 
 
-void Knight::updateMoves() {
+void Knight::updateMoves(std::vector<std::vector<Piece*>> &board) {
 
     moveList.clear();
     // knight can at most move to eight different locations in an "L" shape form
     // These are the possible X values and Y values that the new square can take
-    int poss_y[4] = {position.y + 1, position.y - 1, position.y + 2, position.y - 2};
     int poss_x[4] = {position.x + 1, position.x - 1, position.x + 2, position.x - 2};
+    int poss_y[4] = {position.y + 1, position.y - 1, position.y + 2, position.y - 2};
 
     // define a counter to keep track of how large the valid moveList will be
-    int counter = 0;
-    if(validPosition(poss_y[0],poss_x[2])) {
-        counter++;
-        Square sq = Square(poss_x[2], poss_y[0]);
-        moveList.push_back(sq);
+    if(validPosition(poss_x[0],poss_y[2])) {
+        if(board[poss_x[0]][poss_y[2]]->getName() == '-' || board[poss_x[0]][poss_y[2]]->getPlayer() != player)
+            moveList.push_back(Square(poss_x[0], poss_y[2]));
     }
-    if(validPosition(poss_y[0], poss_x[3])) {
-        counter++;
-        Square sq = Square(poss_x[3], poss_y[0]);
-        moveList.push_back(sq);
+    if(validPosition(poss_x[1], poss_y[2])) {
+        if(board[poss_x[1]][poss_y[2]]->getName() == '-' || board[poss_x[1]][poss_y[2]]->getPlayer() != player)
+            moveList.push_back(Square(poss_x[1], poss_y[2]));
     }
-    if(validPosition(poss_y[1], poss_x[2])) {
-        counter++;
-        Square sq = Square(poss_x[2], poss_y[1]);
-        moveList.push_back(sq);
+    if(validPosition(poss_x[2], poss_y[0])) {
+        if(board[poss_x[2]][poss_y[0]]->getName() == '-' || board[poss_x[2]][poss_y[0]]->getPlayer() != player)
+            moveList.push_back(Square(poss_x[2], poss_y[0]));
     }
-    if(validPosition(poss_y[1], poss_x[3])) {
-        counter++;
-        Square sq = Square(poss_x[3], poss_y[1]);
-        moveList.push_back(sq);
+    if(validPosition(poss_x[3], poss_y[0])) {
+        if(board[poss_x[3]][poss_y[0]]->getName() == '-' || board[poss_x[3]][poss_y[0]]->getPlayer() != player)
+            moveList.push_back(Square(poss_x[3], poss_y[0]));
     }
-    if(validPosition(poss_y[2],poss_x[0])) {
-        counter++;
-        Square sq = Square(poss_x[0], poss_y[2]);
-        moveList.push_back(sq);
+    if(validPosition(poss_x[2],poss_y[1])) {
+        if(board[poss_x[2]][poss_y[1]]->getName() == '-' || board[poss_x[2]][poss_y[1]]->getPlayer() != player)
+            moveList.push_back(Square(poss_x[2], poss_y[1]));
     }
-    if(validPosition(poss_y[2], poss_x[0])) {
-        counter++;
-        Square sq = Square(poss_x[0], poss_y[2]);
-        moveList.push_back(sq);
+    if(validPosition(poss_x[3], poss_y[1])) {
+        if(board[poss_x[3]][poss_y[1]]->getName() == '-' || board[poss_x[3]][poss_y[1]]->getPlayer() != player)
+            moveList.push_back(Square(poss_x[3], poss_y[1]));
     }
-    if(validPosition(poss_y[3], poss_x[1])) {
-        counter++;
-        Square sq = Square(poss_x[1], poss_y[3]);
-        moveList.push_back(sq);
+    if(validPosition(poss_x[0], poss_y[3])) {
+        if(board[poss_x[0]][poss_y[3]]->getName() == '-' || board[poss_x[0]][poss_y[3]]->getPlayer() != player)
+            moveList.push_back(Square(poss_x[0], poss_y[3]));
     }
-    if(validPosition(poss_y[3], poss_x[1])) {
-        counter++;
-        Square sq = Square(poss_x[1], poss_y[3]);
-        moveList.push_back(sq);
+    if(validPosition(poss_x[1], poss_y[3])) {
+        if(board[poss_x[1]][poss_y[3]]->getName() == '-' || board[poss_x[1]][poss_y[3]]->getPlayer() != player)
+            moveList.push_back(Square(poss_x[1], poss_y[3]));
     }
 
 
