@@ -7,34 +7,101 @@
 #include <iostream>
 using namespace std;
 
-void move(std::vector<std::vector<Piece*> > b, int init_x, int init_y, int end_x, int end_y) {
+void move(std::vector<std::vector<Piece*> > b, int init_x, int init_y, int end_x, int end_y, bool checked) {
     Square initial(init_x, init_y);
     Square dest(end_x, end_y);
-    
-    //get the move with the possible move set
-    b[init_x][init_y] -> updateMoves();
-    cout << b[init_x][init_y] -> getName() << "\n";
-    std::vector<Square> possibleMoves = b[init_x][init_y] -> getMoves();
-    bool moved = false;
-    //check if the move is within the set, if not print a statement that lets them know it isn't
-    for(auto &pM : possibleMoves) {
-        if(pM == dest) {
-            b[init_x][init_y]->moveTo(dest);
-            b[end_x][end_y] = b[init_x][init_y];
-            b[init_x][init_y] = new Piece(initial, "none");
-            moved = true;
+    if(checked &&b[init_x][init_y] -> getName() != 'K') {
+        cout << "You must move your King out of check!\n";
+    } else {
+        //get the move with the possible move set
+        b[init_x][init_y]->updateMoves();
+        cout << b[init_x][init_y]->getName() << "\n";
+        std::vector<Square> possibleMoves = b[init_x][init_y]->getMoves();
+        bool moved = false;
+        //check if the move is within the set, if not print a statement that lets them know it isn't
+        for (auto &pM : possibleMoves) {
+            if (pM == dest) {
+                b[init_x][init_y]->moveTo(dest);
+                b[end_x][end_y] = b[init_x][init_y];
+                b[init_x][init_y] = new Piece(initial, "none");
+                moved = true;
+            }
         }
-    }
-    if(!moved) {
-        cout << "That is an invalid move.\n";
+        if(checked) {
+            checked = false;
+        }
+        if (!moved) {
+            cout << "That is an invalid move.\n";
+        }
     }
 }
 
+//checks if there has been a checkmate
+bool checkMate(std::vector<std::vector<Piece*> > b, std::string colorChecked) {
+    King* checkedKing;
+    for(int i = 0; i < 8; i ++) {
+        for (int j = 0; j < 8; j++) {
+            if(b[i][j] -> getName() == 'K' && b[i][j] -> getColor() == colorChecked) {
+                checkedKing = (King*)b[i][j];
+            }
+        }
+    }
+    if((checkedKing -> getMoves()).size() == 0) {
+        return true;
+    }
+    return false;
+}
+
+//checks if there has been a check
+bool check(std::vector<std::vector<Piece*> > b, std::string colorChecked) {
+    bool checked = false;
+    std::vector<Piece*> whiteP;
+    std::vector<Piece*> blackP;
+    Square whiteKLoc;
+    Square blackKLoc;
+    for(int i = 0; i < 8; i ++) {
+        for (int j = 0; j < 8; j++) {
+            // first split up the pieces into their own colors and find the location of the kings
+            if(b[i][j] -> getName() == 'K' && b[i][j] -> getColor() == "white") {
+                whiteKLoc = b[i][j] -> getPos();
+            } else if(b[i][j] -> getName() == 'K' && b[i][j] -> getColor() == "black") {
+                blackKLoc = b[i][j] -> getPos();
+            } else if(b[i][j] -> getName() != '-' && b[i][j] -> getColor() == "white") {
+                whiteP.push_back(b[i][j]);
+            } else if(b[i][j] -> getName() != '-' && b[i][j] -> getColor() == "black") {
+                blackP.push_back(b[i][j]);
+            }
+        }
+    }
+    //check if white king is in check
+    for(auto &bP : blackP) {
+        std:vector<Square> blackPMoves = bP -> getMoves();
+        for(int i = 0; i < blackPMoves.size(); i++) {
+            if(whiteKLoc == blackPMoves[i]) {
+                checked = true;
+                colorChecked = "white";
+            }
+        }
+    }
+    //check if black king is in check
+    for(auto &bP : whiteP) {
+        std::vector<Square> whitePMoves = bP -> getMoves();
+        for(int i = 0; i < whitePMoves.size(); i++) {
+            if(blackKLoc == whitePMoves[i]) {
+                checked = true;
+                colorChecked = "black";
+            }
+        }
+    }
+    return checked;
+}
 int main () {
     
 // initialize board
-    
+    bool checked = false;
+    bool checkMated = false;
     std::string c;
+    std::string colorChecked = "none";
     std::vector<std::vector<Piece*> > board;
     for(int y = 0; y < 8; y++)
     {
@@ -98,7 +165,16 @@ int main () {
         cin >> end_x;
         cout << "Please input the destination y coordinate: ";
         cin >> end_y;
-        move(board, init_x, init_y, end_x, end_y);
+        move(board, init_x, init_y, end_x, end_y, checked);
+        checked = check(board, colorChecked);
+        checkMated = checkMate(board, colorChecked);
+        if(checkMated) {
+            if(colorChecked == "white") {
+                cout << "Black Wins!\n";
+            } else {
+                cout << "White Wins!\n";
+            }
+        }
     }
 
     return 0;
