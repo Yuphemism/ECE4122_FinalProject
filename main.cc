@@ -78,7 +78,7 @@ void move(std::vector<std::vector<Piece*> > & b, int init_x, int init_y, int end
     bool moved = false;
     Square dest(end_x, end_y);
     Square initial(init_x, init_y);
-    cout << turn;
+    cout << b[init_y][init_x] -> getColor();
     if(b[init_y][init_x] -> getColor() != turn){
         cout << "That's not your piece!\n";
         return;

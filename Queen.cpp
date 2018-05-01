@@ -139,5 +139,5 @@ std::vector<Square> Queen::getMoves() {
 }
 
 Square Queen::getPosition() {return position;}
-
+std::string Queen::getColor(){return player;}
 char Queen::getName() {return piece_name;}

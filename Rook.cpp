@@ -82,5 +82,5 @@ Square Rook::getPosition() {return position;}
 std::vector<Square> Rook::getMoves() {
     return moveList;
 }
-
+std::string Rook::getColor(){return player;}
 char Rook::getName() {return piece_name;}

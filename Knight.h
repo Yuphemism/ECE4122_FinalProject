@@ -24,7 +24,7 @@ public:
     std::vector<Square> getMoves();
     char getName();
     Square getPosition();
-
+    std::string getColor();
 };
 
 #endif //FINAL_PROJECT_KNIGHT_H

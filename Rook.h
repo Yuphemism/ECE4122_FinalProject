@@ -29,7 +29,7 @@ public:
     std::vector<Square> getMoves();
 
     char getName();
-
+    std::string getColor();
     Square getPosition();
 };
 

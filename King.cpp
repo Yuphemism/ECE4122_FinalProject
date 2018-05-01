@@ -88,5 +88,5 @@ Square King::getPosition() {return position;}
 std::vector<Square> King::getMoves() {
     return moveList;
 }
-
+std::string King::getColor(){return player;}
 char King::getName() {return piece_name;}

@@ -83,5 +83,5 @@ std::vector<Square> Bishop::getMoves() {
 }
 
 Square Bishop::getPosition() {return position;}
-
+std::string Bishop::getColor(){return player;}
 char Bishop::getName() {return piece_name;}
