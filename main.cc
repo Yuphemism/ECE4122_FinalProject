@@ -7,53 +7,6 @@
 #include <iostream>
 using namespace std;
 
-void move(std::vector<std::vector<Piece*> > & b, int init_x, int init_y, int end_x, int end_y, bool checked) {
-    Square initial(init_x, init_y);
-    Square dest(end_x, end_y);
-    cout << b[end_y][end_x] -> getName() << "\n";
-    //get the move with the possible move set
-    b[init_y][init_x] -> updateMoves(b);
-
-    std::vector<Square> possibleMoves = b[init_y][init_x] -> getMoves();
-    cout << "# of possible moves: " << possibleMoves.size() << endl;
-    bool moved = false;
-    if(checked) {
-
-    }
-
-    //check if the move is within the set, if not print a statement that lets them know it isn't
-    for(auto &pM : possibleMoves) {
-        cout << "Possible moves; x: " << pM.x << ", y: " << pM.y << endl;
-
-        if(pM == dest) {
-            // testing
-            cout << "PieceName: " << b[init_y][init_x]->getName() << endl;
-            Square currentPos = b[init_y][init_x]->getPosition();
-            cout << "currentPos: " << currentPos.x << " " << currentPos.y << endl;
-
-            b[init_y][init_x]->moveTo(dest);
-
-//            // testing
-//            cout << "Starting piece name: " << b[init_x][init_y]->getName() << endl;
-//            cout << "x: " << init_x << ", y: " << init_y << endl;
-
-            b[end_y][end_x] = b[init_y][init_x];
-
-//            // testing
-//            cout << "Ending piece name: " << b[end_x][end_y]->getName() << endl;
-//            cout << "x: " << end_x << ", y: " << end_y << endl;
-
-            b[init_y][init_x] = new Piece(initial, "none");
-            moved = true;
-
-            // break out of the loop if move is valid
-            break;
-        }
-    }
-    if(!moved) {
-        cout << "That is an invalid move.\n";
-    }
-}
 
 //checks if there has been a checkmate
 bool checkMate(std::vector<std::vector<Piece*> > b, std::string colorChecked) {
@@ -115,6 +68,125 @@ bool check(std::vector<std::vector<Piece*> > b, std::string colorChecked) {
     return checked;
 }
 
+void move(std::vector<std::vector<Piece*> > & b, int init_x, int init_y, int end_x, int end_y, bool checked, std::string color, std::string turn) {
+    // implement way to escape check
+    std::string colorChecked = color;
+    bool moved = false;
+    Square dest(end_x, end_y);
+    Square initial(init_x, init_y);
+    if(b[init_y][init_x] -> getColor() != turn){
+        cout << "That's not your piece!\n";
+        return;
+    }
+    if(checked) {
+        b[init_y][init_x] -> updateMoves(b);
+        std::vector<Square> possibleM = b[init_y][init_x] -> getMoves();
+        Square dest(end_x, end_y);
+        Piece *last = b[end_y][end_x];;
+        for(auto &pM : possibleM) {
+            if(pM == dest) {
+                // testing
+                b[init_y][init_x]->moveTo(dest);
+                b[end_y][end_x] = b[init_y][init_x];
+                b[init_y][init_x] = new Piece(initial, "none");
+                moved = true;
+                if(turn == "white") {
+                    turn = "black";
+                }else  {
+                    turn = "white";
+                }
+                // break out of the loop if move is valid
+                break;
+            }
+        }
+        checked = check(b, colorChecked);
+        if(colorChecked != color) {
+            checked = false;
+        }
+        //if the move would have left him in check revert changes
+        if(checked && moved) {
+            b[end_y][end_x] -> moveTo(initial);
+            b[init_y][init_x] = b[end_y][end_x];
+            b[end_y][end_x] = last;
+            if(turn == "white") {
+                turn = "black";
+            }else  {
+                turn = "white";
+            }
+            cout << "You cannot do that because you are in check!\n";
+        }
+        return;
+    }
+    cout << b[end_y][end_x] -> getName() << "\n";
+    //get the move with the possible move set
+    b[init_y][init_x] -> updateMoves(b);
+
+    std::vector<Square> possibleMoves = b[init_y][init_x] -> getMoves();
+    cout << "# of possible moves: " << possibleMoves.size() << endl;
+    moved = false;
+
+    //check if the move is within the set, if not print a statement that lets them know it isn't
+    for(auto &pM : possibleMoves) {
+        cout << "Possible moves; x: " << pM.x << ", y: " << pM.y << endl;
+
+        if(pM == dest) {
+            // testing
+            cout << "PieceName: " << b[init_y][init_x]->getName() << endl;
+            Square currentPos = b[init_y][init_x]->getPosition();
+            cout << "currentPos: " << currentPos.x << " " << currentPos.y << endl;
+
+            b[init_y][init_x]->moveTo(dest);
+
+//            // testing
+//            cout << "Starting piece name: " << b[init_x][init_y]->getName() << endl;
+//            cout << "x: " << init_x << ", y: " << init_y << endl;
+
+            b[end_y][end_x] = b[init_y][init_x];
+
+//            // testing
+//            cout << "Ending piece name: " << b[end_x][end_y]->getName() << endl;
+//            cout << "x: " << end_x << ", y: " << end_y << endl;
+
+            b[init_y][init_x] = new Piece(initial, "none");
+            moved = true;
+
+            // break out of the loop if move is valid
+            break;
+        }
+    }
+    if(turn == "white") {
+        turn = "black";
+    }else  {
+        turn = "white";
+    }
+    if(!moved) {
+        cout << "That is an invalid move.\n";
+        if(turn == "white") {
+            turn = "black";
+        }else  {
+            turn = "white";
+        }
+    }
+}
+bool staleMate(std::vector<std::vector<Piece*> > & b, std::string color) {
+    std::vector<Piece *> P;
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            // first split up the pieces into their own colors
+            if (b[i][j]->getName() != '-' && b[i][j]->getColor() == color) {
+                P.push_back(b[i][j]);
+            }
+        }
+    }
+        for (auto &p : P) {
+            if (p->getMoves().size() > 0) {
+                return false;
+            }
+        }
+        return true;
+}
+
+
 int main () {
     
 // initialize board
@@ -164,11 +236,14 @@ int main () {
             
         }
     }
+
     
 //Play the game
     int init_x, init_y, end_x, end_y;
     bool checked, checkmate = false;
     std::string colorChecked = "none";
+    char transform;
+    std::string turn = "white";
     while(true) {
         //print out board
         for(int x = 0; x < 8; x++){
@@ -186,16 +261,30 @@ int main () {
         cin >> end_x;
         cout << "Please input the destination y coordinate: ";
         cin >> end_y;
-        cout << board[end_x][end_y] -> getName();
-        move(board, init_x, init_y, end_x, end_y, checked);
+        move(board, init_x, init_y, end_x, end_y, checked, colorChecked, turn);
 
         //check if a pawn has made it to the end of the board
-        if(board[end_x][end_y] -> getName() == 'p' || board[end_x][end_y] -> getName() == 'P') {
+        cout << "here";
+        if(board[end_y][end_x] -> getName() == 'p' || board[end_y][end_x] -> getName() == 'P') {
             if (end_y == 0 && board[end_x][end_y] -> getColor() == "white" || end_y == 7 && board[end_x][end_y] -> getColor() == "black" ) {
-
+                cout << "Please choose what piece you would like to transform you pawn into: ";
+                cin >> transform;
+                if(transform == 'R') {
+                    Rook* r = new Rook(board[end_y][end_x] -> getPosition(), board[end_y][end_x] -> getColor());
+                    board[end_y][end_x] = r;
+                } else if(transform == 'N') {
+                    Knight* k = new Knight(board[end_y][end_x] -> getPosition(), board[end_y][end_x] -> getColor());
+                    board[end_y][end_x] = k;
+                } else if (transform == 'B') {
+                    Bishop* b = new Bishop(board[end_y][end_x] -> getPosition(), board[end_y][end_x] -> getColor());
+                    board[end_y][end_x] = b;
+                } else if (transform == 'Q') {
+                    Queen* q = new Queen(board[end_y][end_x] -> getPosition(), board[end_y][end_x] -> getColor());
+                    board[end_y][end_x] = q;
+                }
             }
         }
-
+        cout << "here";
         checked = check(board, colorChecked);
         checkmate = checkMate(board, colorChecked);
 
