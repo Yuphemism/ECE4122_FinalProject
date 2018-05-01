@@ -7,32 +7,51 @@
 #include <iostream>
 using namespace std;
 
-void move(std::vector<std::vector<Piece*> > b, int init_x, int init_y, int end_x, int end_y, bool checked) {
+void move(std::vector<std::vector<Piece*> > & b, int init_x, int init_y, int end_x, int end_y, bool checked) {
     Square initial(init_x, init_y);
     Square dest(end_x, end_y);
-    if(checked &&b[init_x][init_y] -> getName() != 'K') {
-        cout << "You must move your King out of check!\n";
-    } else {
-        //get the move with the possible move set
-        b[init_x][init_y]->updateMoves();
-        cout << b[init_x][init_y]->getName() << "\n";
-        std::vector<Square> possibleMoves = b[init_x][init_y]->getMoves();
-        bool moved = false;
-        //check if the move is within the set, if not print a statement that lets them know it isn't
-        for (auto &pM : possibleMoves) {
-            if (pM == dest) {
-                b[init_x][init_y]->moveTo(dest);
-                b[end_x][end_y] = b[init_x][init_y];
-                b[init_x][init_y] = new Piece(initial, "none");
-                moved = true;
-            }
+    cout << b[end_y][end_x] -> getName() << "\n";
+    //get the move with the possible move set
+    b[init_y][init_x] -> updateMoves(b);
+
+    std::vector<Square> possibleMoves = b[init_y][init_x] -> getMoves();
+    cout << "# of possible moves: " << possibleMoves.size() << endl;
+    bool moved = false;
+    if(checked) {
+
+    }
+
+    //check if the move is within the set, if not print a statement that lets them know it isn't
+    for(auto &pM : possibleMoves) {
+        cout << "Possible moves; x: " << pM.x << ", y: " << pM.y << endl;
+
+        if(pM == dest) {
+            // testing
+            cout << "PieceName: " << b[init_y][init_x]->getName() << endl;
+            Square currentPos = b[init_y][init_x]->getPosition();
+            cout << "currentPos: " << currentPos.x << " " << currentPos.y << endl;
+
+            b[init_y][init_x]->moveTo(dest);
+
+//            // testing
+//            cout << "Starting piece name: " << b[init_x][init_y]->getName() << endl;
+//            cout << "x: " << init_x << ", y: " << init_y << endl;
+
+            b[end_y][end_x] = b[init_y][init_x];
+
+//            // testing
+//            cout << "Ending piece name: " << b[end_x][end_y]->getName() << endl;
+//            cout << "x: " << end_x << ", y: " << end_y << endl;
+
+            b[init_y][init_x] = new Piece(initial, "none");
+            moved = true;
+
+            // break out of the loop if move is valid
+            break;
         }
-        if(checked) {
-            checked = false;
-        }
-        if (!moved) {
-            cout << "That is an invalid move.\n";
-        }
+    }
+    if(!moved) {
+        cout << "That is an invalid move.\n";
     }
 }
 
@@ -52,7 +71,7 @@ bool checkMate(std::vector<std::vector<Piece*> > b, std::string colorChecked) {
     return false;
 }
 
-//checks if there has been a check
+
 bool check(std::vector<std::vector<Piece*> > b, std::string colorChecked) {
     bool checked = false;
     std::vector<Piece*> whiteP;
@@ -63,9 +82,9 @@ bool check(std::vector<std::vector<Piece*> > b, std::string colorChecked) {
         for (int j = 0; j < 8; j++) {
             // first split up the pieces into their own colors and find the location of the kings
             if(b[i][j] -> getName() == 'K' && b[i][j] -> getColor() == "white") {
-                whiteKLoc = b[i][j] -> getPos();
-            } else if(b[i][j] -> getName() == 'K' && b[i][j] -> getColor() == "black") {
-                blackKLoc = b[i][j] -> getPos();
+                whiteKLoc = b[i][j] -> getPosition();
+            } else if(b[i][j] -> getName() == 'k' && b[i][j] -> getColor() == "black") {
+                blackKLoc = b[i][j] -> getPosition();
             } else if(b[i][j] -> getName() != '-' && b[i][j] -> getColor() == "white") {
                 whiteP.push_back(b[i][j]);
             } else if(b[i][j] -> getName() != '-' && b[i][j] -> getColor() == "black") {
@@ -75,7 +94,7 @@ bool check(std::vector<std::vector<Piece*> > b, std::string colorChecked) {
     }
     //check if white king is in check
     for(auto &bP : blackP) {
-        std:vector<Square> blackPMoves = bP -> getMoves();
+        std::vector<Square> blackPMoves = bP -> getMoves();
         for(int i = 0; i < blackPMoves.size(); i++) {
             if(whiteKLoc == blackPMoves[i]) {
                 checked = true;
@@ -95,13 +114,12 @@ bool check(std::vector<std::vector<Piece*> > b, std::string colorChecked) {
     }
     return checked;
 }
+
 int main () {
     
 // initialize board
-    bool checked = false;
-    bool checkMated = false;
+    
     std::string c;
-    std::string colorChecked = "none";
     std::vector<std::vector<Piece*> > board;
     for(int y = 0; y < 8; y++)
     {
@@ -149,13 +167,16 @@ int main () {
     
 //Play the game
     int init_x, init_y, end_x, end_y;
+    bool checked, checkmate = false;
+    std::string colorChecked = "none";
     while(true) {
         //print out board
-        for(int y = 0; y < 8; y++){
-            for(int x = 0; x < 8; x++){
-                cout << board[y][x] -> getName();
+        for(int x = 0; x < 8; x++){
+            for(int y = 0; y < 8; y++) {
+                cout << board[x][y]->getName();
             }
-            cout << "\n";
+                cout << "\n";
+
         }
         cout << "Please input the initial x coordinate: ";
         cin >> init_x;
@@ -165,16 +186,28 @@ int main () {
         cin >> end_x;
         cout << "Please input the destination y coordinate: ";
         cin >> end_y;
+        cout << board[end_x][end_y] -> getName();
         move(board, init_x, init_y, end_x, end_y, checked);
-        checked = check(board, colorChecked);
-        checkMated = checkMate(board, colorChecked);
-        if(checkMated) {
-            if(colorChecked == "white") {
-                cout << "Black Wins!\n";
-            } else {
-                cout << "White Wins!\n";
+
+        //check if a pawn has made it to the end of the board
+        if(board[end_x][end_y] -> getName() == 'p' || board[end_x][end_y] -> getName() == 'P') {
+            if (end_y == 0 && board[end_x][end_y] -> getColor() == "white" || end_y == 7 && board[end_x][end_y] -> getColor() == "black" ) {
+
             }
         }
+
+        checked = check(board, colorChecked);
+        checkmate = checkMate(board, colorChecked);
+
+        if(checkmate) {
+            if(colorChecked == "white") {
+                cout << "Black has Won";
+            } else {
+                cout << "White has won";
+            }
+            break;
+        }
+
     }
 
     return 0;

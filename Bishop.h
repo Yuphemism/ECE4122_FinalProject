@@ -2,7 +2,6 @@
 // Created by Wayne Stevens on 4/19/18.
 //
 #include "Piece.h"
-#include <vector>
 
 #ifndef FINAL_PROJECT_BISHOP_H
 #define FINAL_PROJECT_BISHOP_H
@@ -23,7 +22,7 @@ public:
 
     void moveTo(Square newPosition);
 
-    void updateMoves(std::vector<std::vector<Piece*>> &board); // update the MoveList
+    void updateMoves(std::vector<std::vector<Piece*> > board); // update the MoveList
 
     std::vector<Square> getMoves();
 

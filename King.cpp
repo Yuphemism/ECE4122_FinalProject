@@ -29,7 +29,7 @@ void King::moveTo(Square newPosition) {
     position = newPosition;
 }
 
-void King::updateMoves(std::vector<std::vector<Piece*>> &board) {
+void King::updateMoves(std::vector<std::vector<Piece*> > board) {
     // These are the possible X values and Y values that the new square can take
     moveList.clear();
    
@@ -39,36 +39,44 @@ void King::updateMoves(std::vector<std::vector<Piece*>> &board) {
 
     // check to see if potential row and column pair is valid
     if(validPosition(poss_x[0], poss_y[0])) {
-        if(board[poss_x[0]][poss_y[0]]->getName() == '-' || board[poss_x[0]][poss_y[0]]->getPlayer() != player)
+        if(board[poss_y[0]][poss_x[0]] -> getColor() != player){
             moveList.push_back(Square(poss_x[0], poss_y[0]));
+        }
     }
     if(validPosition(poss_x[0], poss_y[1])) {
-        if(board[poss_x[0]][poss_y[1]]->getName() == '-' || board[poss_x[0]][poss_y[1]]->getPlayer() != player)
+        if(board[poss_y[1]][poss_x[0]] -> getColor() != player) {
             moveList.push_back(Square(poss_x[0], poss_y[1]));
+        }
     }
     if(validPosition(poss_x[1], poss_y[0])) {
-        if(board[poss_x[1]][poss_y[0]]->getName() == '-' || board[poss_x[1]][poss_y[0]]->getPlayer() != player)
+        if(board[poss_y[0]][poss_x[1]] -> getColor() != player) {
             moveList.push_back(Square(poss_x[1], poss_y[0]));
+        }
     }
     if(validPosition(poss_x[1], poss_y[1])) {
-        if(board[poss_x[1]][poss_y[1]]->getName() == '-' || board[poss_x[1]][poss_y[1]]->getPlayer() != player)
+        if(board[poss_y[1]][poss_x[1]] -> getColor() != player) {
             moveList.push_back(Square(poss_x[1], poss_y[1]));
+        }
     }
     if(validPosition(poss_x[0], position.y)) {
-        if(board[poss_x[0]][position.y]->getName() == '-' || board[poss_x[0]][position.y]->getPlayer() != player)
+        if(board[position.y][poss_x[0]] -> getColor() != player) {
             moveList.push_back(Square(poss_x[0], position.y));
+        }
     }
     if(validPosition(poss_x[1], position.y)) {
-        if(board[poss_x[1]][position.y]->getName() == '-' || board[poss_x[1]][position.y]->getPlayer() != player)
+        if(board[position.y][poss_x[1]] -> getColor() != player) {
             moveList.push_back(Square(poss_x[1], position.y));
+        }
     }
     if(validPosition(position.x, poss_y[0])) {
-        if(board[position.x][poss_y[0]]->getName() == '-' || board[position.x][poss_y[0]]->getPlayer() != player)
+        if(board[poss_y[0]][position.x] -> getColor() != player) {
             moveList.push_back(Square(position.x, poss_y[0]));
+        }
     }
     if(validPosition(position.x, poss_y[1])) {
-        if(board[position.x][poss_y[1]]->getName() == '-' || board[position.x][poss_y[1]]->getPlayer() != player)
+        if(board[poss_y[1]][position.x] -> getColor() != player) {
             moveList.push_back(Square(position.x, poss_y[1]));
+        }
     }
     
 

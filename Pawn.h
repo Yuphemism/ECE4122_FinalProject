@@ -20,9 +20,9 @@ public:
     char piece_name;
 
     Pawn (Square set_position, std::string color);
-
+    std::string getColor();
     void moveTo(Square newPosition);
-    void updateMoves();
+    void updateMoves(std::vector<std::vector<Piece*> > board);
     std::vector<Square> getMoves();
     char getName();
     Square getPosition();

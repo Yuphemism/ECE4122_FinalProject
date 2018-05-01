@@ -24,19 +24,16 @@ protected:
         // validates that x,y pair on the board
         bool validPosition(int x_val, int y_val);
 
+        virtual std::string getColor();
         // get list of potential moves
         virtual std::vector<Square> getMoves();
 
         // update the list of squares the piece can move to
-        virtual void updateMoves(std::vector<std::vector<Piece*>> &board);
+        virtual void updateMoves(std::vector<std::vector<Piece*> > board);
 
         virtual char getName();
 
-        virtual std::string getPlayer();
-	
-	Square getPos();
-
-
+        virtual Square getPosition();
 
 
 };
