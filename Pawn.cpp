@@ -27,7 +27,7 @@ void Pawn::updateMoves(std::vector<std::vector<Piece*> > board) {
 
         // Move: forward by 2, TODO: check to make sure pawn is previously unmoved
         // Move: forward by 1
-        if (validPosition(poss_x[0], poss_y[1]) && (counter == 0)) {
+        if (validPosition(poss_x[0], poss_y[1]) && (!moved)) {
             counter++;
             Square sq = Square(poss_x[0], poss_y[1]);
             if (board[position.y - 2][position.x]->getName() == '-') {
@@ -106,6 +106,7 @@ void Pawn::updateMoves(std::vector<std::vector<Piece*> > board) {
 
 void Pawn::moveTo(Square newPosition) {
     position = newPosition;
+    moved = true;
 }
 
 std::vector<Square> Pawn::getMoves() {
@@ -113,7 +114,6 @@ std::vector<Square> Pawn::getMoves() {
 }
 
 Square Pawn::getPosition() {return position;}
-
 
 char Pawn::getName() {return piece_name;}
 std::string Pawn::getColor(){return player;}

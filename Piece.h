@@ -19,7 +19,7 @@ protected:
 
         //************ Member Functions ****************
         // move piece position of piece
-        void moveTo(Square current_position);
+        virtual void moveTo(Square current_position);
 
         // validates that x,y pair on the board
         bool validPosition(int x_val, int y_val);

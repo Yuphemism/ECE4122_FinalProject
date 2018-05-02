@@ -63,17 +63,17 @@ void Knight::updateMoves(std::vector<std::vector<Piece*> > board) {
             moveList.push_back(sq);
         }
     }
-    if(validPosition(poss_y[2], poss_x[0])) {
-        if (board[poss_y[2]][poss_x[0]]->getColor() != player) {
+    if(validPosition(poss_y[2], poss_x[1])) {
+        if (board[poss_y[2]][poss_x[1]]->getColor() != player) {
             counter++;
-            Square sq = Square(poss_x[0], poss_y[2]);
+            Square sq = Square(poss_x[1], poss_y[2]);
             moveList.push_back(sq);
         }
     }
-    if(validPosition(poss_y[3], poss_x[1])) {
-        if (board[poss_y[3]][poss_x[1]]->getColor() != player) {
+    if(validPosition(poss_y[3], poss_x[0])) {
+        if (board[poss_y[3]][poss_x[0]]->getColor() != player) {
             counter++;
-            Square sq = Square(poss_x[1], poss_y[3]);
+            Square sq = Square(poss_x[0], poss_y[3]);
             moveList.push_back(sq);
         }
     }

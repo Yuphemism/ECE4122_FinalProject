@@ -14,6 +14,7 @@ class Pawn : public Piece {
 
 
 public:
+    bool moved = false;
     Square position;
     std::vector<Square> moveList;
     std::string player;
@@ -26,7 +27,6 @@ public:
     std::vector<Square> getMoves();
     char getName();
     Square getPosition();
-
 //    Pawn & operator = (const Pawn & pawn);
 };
 

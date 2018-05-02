@@ -122,7 +122,6 @@ void move(std::vector<std::vector<Piece*> > & b, int init_x, int init_y, int end
         }
         return;
     }
-    cout << b[end_y][end_x] -> getName() << "\n";
     //get the move with the possible move set
     b[init_y][init_x] -> updateMoves(b);
 
@@ -132,25 +131,16 @@ void move(std::vector<std::vector<Piece*> > & b, int init_x, int init_y, int end
 
     //check if the move is within the set, if not print a statement that lets them know it isn't
     for(auto &pM : possibleMoves) {
-        cout << "Possible moves; x: " << pM.x << ", y: " << pM.y << endl;
 
         if(pM == dest) {
-            // testing
-            cout << "PieceName: " << b[init_y][init_x]->getName() << endl;
+
             Square currentPos = b[init_y][init_x]->getPosition();
-            cout << "currentPos: " << currentPos.x << " " << currentPos.y << endl;
 
             b[init_y][init_x]->moveTo(dest);
 
-//            // testing
-//            cout << "Starting piece name: " << b[init_x][init_y]->getName() << endl;
-//            cout << "x: " << init_x << ", y: " << init_y << endl;
+
 
             b[end_y][end_x] = b[init_y][init_x];
-
-//            // testing
-//            cout << "Ending piece name: " << b[end_x][end_y]->getName() << endl;
-//            cout << "x: " << end_x << ", y: " << end_y << endl;
 
             b[init_y][init_x] = new Piece(initial, "none");
             moved = true;
@@ -247,9 +237,11 @@ int main () {
     std::string turn = "white";
     while(true) {
         //print out board
+        cout << "  0 1 2 3 4 5 6 7\n";
         for(int x = 0; x < 8; x++){
+            cout << x << " ";
             for(int y = 0; y < 8; y++) {
-                cout << board[x][y]->getName();
+                cout << board[x][y]->getName() << ' ';
             }
                 cout << "\n";
 
@@ -258,6 +250,11 @@ int main () {
         cin >> init_x;
         cout << "Please input the initial y coordinate: ";
         cin >> init_y;
+        board[init_y][init_x] -> updateMoves(board);
+        vector<Square> pMA = board[init_y][init_x] -> getMoves();
+        for(auto & pM : pMA) {
+            cout << "Possible moves; x: " << pM.x << ", y: " << pM.y << endl;
+        }
         cout << "Please input the destination x coordinate: ";
         cin >> end_x;
         cout << "Please input the destination y coordinate: ";
