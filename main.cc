@@ -5,7 +5,37 @@
 #include "Pawn.h"
 #include "Rook.h"
 #include <iostream>
+#include <cstdlib>
+#include <string>
+
 using namespace std;
+std::string spaceW = "                                             ";
+std::string spaceB = "#############################################";
+std::string pawnWW = "    _       (_)      | |      |_|            ";
+std::string pawnWB = "############(_)######| |######|_|############";
+std::string rookWW = "           [`'`']    |  |     |__|           ";
+std::string rookWB = "###########[`'`']####|  |#####|__|###########";
+std::string knightWW = "           \\`~'/    (o o}     \\ / \\     \"    ";
+std::string knightWB = "###########\\`~'/####(o o}#####\\ / \\#####\"####";
+std::string bishopWW = "           '\\v/`    (o 0}     (_)            ";
+std::string bishopWB = "###########'\\v/`####(o 0}#####(_)############";
+std::string queenWW = "   ___     /\\*/\\   /(o o}\\    (_)            ";
+std::string queenWB = "###___#####/\\*/\\###/(o o}\\####(_)############";
+std::string kingWW = "           |`+'|    (o o}     (_)            ";
+std::string kingWB = "###########|`+'|####(o o}#####(_)############";
+std::string pawnBW = "    _       (:)      |:|      |:|            ";
+std::string pawnBB = "############(:)######|:|######|:|############";
+std::string rookBW = "           [`'`']    |::|     |::|           ";
+std::string rookBB = "###########[`'`']####|::|#####|::|###########";
+std::string knightBW = "           \\`.'/    (o:o}     \\:/:\\     \"    ";
+std::string knightBB = "###########\\`.'/####(o:o}#####\\ / \\#####\"####";
+std::string bishopBW = "           ':v:`    (o:0}     (:)            ";
+std::string bishopBB = "###########':v:`####(o:0}#####(:)############";
+std::string queenBW = "   ___     /\\:/\\   /(o:o}\\    (:)            ";
+std::string queenBB = "###___#####/\\:/\\###/(o:o}\\####(:)############";
+std::string kingBW = "           |:+:|    (o:o}     (:)            ";
+std::string kingBB = "###########|:+:|####(o:o}#####(:)############";
+
 
 
 //checks if there has been a checkmate
@@ -72,6 +102,31 @@ bool check(std::vector<std::vector<Piece*> > b, std::string & colorChecked) {
     return checked;
 }
 
+void convert(char row, int y1, int & x, int & y2){
+    y2 = abs(y1 - 8);
+    if(row == 'A'){x = 0;}
+    if(row == 'B'){x = 1;}
+    if(row == 'C'){x = 2;}
+    if(row == 'D'){x = 3;}
+    if(row == 'E'){x = 4;}
+    if(row == 'F'){x = 5;}
+    if(row == 'G'){x = 6;}
+    if(row == 'H'){x = 7;}
+
+}
+void convert( int x, int y2, char & row, int & y1){
+    y1 = abs(y2 - 8);
+    if(x == 0){row = 'A';}
+    if(x == 1){row = 'B';}
+    if(x == 2){row = 'C';}
+    if(x == 3){row = 'D';}
+    if(x == 4){row = 'E';}
+    if(x == 5){row = 'F';}
+    if(x == 6){row = 'G';}
+    if(x == 7){row = 'H';}
+
+
+}
 void move(std::vector<std::vector<Piece*> > & b, int init_x, int init_y, int end_x, int end_y, bool & checked, std::string color, std::string & turn) {
     // implement way to escape check
     std::string colorChecked = color;
@@ -176,13 +231,264 @@ bool staleMate(std::vector<std::vector<Piece*> > & b, std::string color) {
         }
         return true;
 }
-
+std::string tile(int x, int y, char name){
+    bool w = (x + y)%2 == 0;
+    if(name == '-' && w) {
+        return spaceW;
+    }else if(name == '-' && !w) {
+        return spaceB;
+    }else if(name == 'p'){
+        if(w) {
+            return pawnBW;
+        }else{
+            return pawnBB;
+        }
+    }else if(name == 'P'){
+        if(w) {
+            return pawnWW;
+        }else{
+            return pawnWB;
+        }
+    }else if(name == 'r'){
+        if(w) {
+            return rookBW;
+        }else{
+            return rookBB;
+        }
+    }else if(name == 'R'){
+        if(w) {
+            return rookWW;
+        }else{
+            return rookWB;
+        }
+    }else if(name == 'n'){
+        if(w) {
+            return knightBW;
+        }else{
+            return knightBB;
+        }
+    }else if(name == 'N'){
+        if(w) {
+            return knightWW;
+        }else{
+            return knightWB;
+        }
+    }else if(name == 'b'){
+        if(w) {
+            return bishopBW;
+        }else{
+            return bishopBB;
+        }
+    }else if(name == 'B'){
+        if(w) {
+            return bishopWW;
+        }else{
+            return bishopWB;
+        }
+    }else if(name == 'q'){
+        if(w) {
+            return queenBW;
+        }else{
+            return queenBB;
+        }
+    }else if(name == 'Q'){
+        if(w) {
+            return queenWW;
+        }else{
+            return queenWB;
+        }
+    }else if(name == 'k'){
+        if(w) {
+            return kingBW;
+        }else{
+            return kingBB;
+        }
+    }else if(name == 'K'){
+        if(w) {
+            return kingWW;
+        }else{
+            return kingWB;
+        }
+    }
+}
+void displayBoard(std::vector<std::vector<Piece*> > & b){
+    std::string board;
+    std::string letters = "                 _        _        _        __       __       _             \n";
+    letters = letters +   "       /\\       |_)      /        | \\      |_       |_       /        |_|   \n";
+    letters = letters +   "      /--\\      |_)      \\_       |_/      |__      |        \\_?      | |   \n\n";
+    board = board + letters;
+    for(int i = 0; i < 8; i++){
+        std::string tile1 =  tile(0, i, b[i][0] ->getName());
+        std::string tile2 =  tile(1, i, b[i][1] ->getName());
+        std::string tile3 =  tile(2, i, b[i][2] ->getName());
+        std::string tile4 =  tile(3, i, b[i][3] ->getName());
+        std::string tile5 =  tile(4, i, b[i][4] ->getName());
+        std::string tile6 =  tile(5, i, b[i][5] ->getName());
+        std::string tile7 =  tile(6, i, b[i][6] ->getName());
+        std::string tile8 =  tile(7, i, b[i][7] ->getName());
+        if(i == 0){
+            board = board + "    ";
+        }else if(i == 1){
+            board = board + "    ";
+        }else if(i == 2){
+            board = board + "    ";
+        }else if(i == 3){
+            board = board + "    ";
+        }else if(i == 4){
+            board = board + "    ";
+        }else if(i == 5){
+            board = board + "    ";
+        }else if(i == 6){
+            board = board + "    ";
+        }else if(i == 7){
+            board = board + "    ";
+        }else if(i == 9){
+            board = board + "    ";
+        }
+        for(int j = 0; j < 9; j++){board = board + tile1[j];}
+        for(int j = 0; j < 9; j++){board = board + tile2[j];}
+        for(int j = 0; j < 9; j++){board = board + tile3[j];}
+        for(int j = 0; j < 9; j++){board = board + tile4[j];}
+        for(int j = 0; j < 9; j++){board = board + tile5[j];}
+        for(int j = 0; j < 9; j++){board = board + tile6[j];}
+        for(int j = 0; j < 9; j++){board = board + tile7[j];}
+        for(int j = 0; j < 9; j++){board = board + tile8[j];}
+        board = board + "\n";
+        if(i == 0){
+            board = board + " _  ";
+        }else if(i == 1){
+            board = board + " __ ";
+        }else if(i == 2){
+            board = board + "    ";
+        }else if(i == 3){
+            board = board + " _  ";
+        }else if(i == 4){
+            board = board + "  . ";
+        }else if(i == 5){
+            board = board + " _  ";
+        }else if(i == 6){
+            board = board + " _  ";
+        }else if(i == 7){
+            board = board + "    ";
+        }else if(i == 9){
+            board = board + "    ";
+        }
+        for(int j = 9; j < 18; j++){board = board + tile1[j];}
+        for(int j = 9; j < 18; j++){board = board + tile2[j];}
+        for(int j = 9; j < 18; j++){board = board + tile3[j];}
+        for(int j = 9; j < 18; j++){board = board + tile4[j];}
+        for(int j = 9; j < 18; j++){board = board + tile5[j];}
+        for(int j = 9; j < 18; j++){board = board + tile6[j];}
+        for(int j = 9; j < 18; j++){board = board + tile7[j];}
+        for(int j = 9; j < 18; j++){board = board + tile8[j];}
+        board = board + "\n";
+        if(i == 0){
+            board = board + "(_) ";
+        }else if(i == 1){
+            board = board + "  / ";
+        }else if(i == 2){
+            board = board + " /  ";
+        }else if(i == 3){
+            board = board + "|_  ";
+        }else if(i == 4){
+            board = board + " /| ";
+        }else if(i == 5){
+            board = board + " _) ";
+        }else if(i == 6){
+            board = board + "  ) ";
+        }else if(i == 7){
+            board = board + " /| ";
+        }else if(i == 9){
+            board = board + "    ";
+        }
+        for(int j = 18; j < 27; j++){board = board + tile1[j];}
+        for(int j = 18; j < 27; j++){board = board + tile2[j];}
+        for(int j = 18; j < 27; j++){board = board + tile3[j];}
+        for(int j = 18; j < 27; j++){board = board + tile4[j];}
+        for(int j = 18; j < 27; j++){board = board + tile5[j];}
+        for(int j = 18; j < 27; j++){board = board + tile6[j];}
+        for(int j = 18; j < 27; j++){board = board + tile7[j];}
+        for(int j = 18; j < 27; j++){board = board + tile8[j];}
+        board = board + "\n";
+        if(i == 0){
+            board = board + "(_) ";
+        }else if(i == 1){
+            board = board + " /  ";
+        }else if(i == 2){
+            board = board + "(_) ";
+        }else if(i == 3){
+            board = board + " _) ";
+        }else if(i == 4){
+            board = board + "'-| ";
+        }else if(i == 5){
+            board = board + " _) ";
+        }else if(i == 6){
+            board = board + "/_  ";
+        }else if(i == 7){
+            board = board + "  | ";
+        }else if(i == 9){
+            board = board + "    ";
+        }
+        for(int j = 27; j < 36; j++){board = board + tile1[j];}
+        for(int j = 27; j < 36; j++){board = board + tile2[j];}
+        for(int j = 27; j < 36; j++){board = board + tile3[j];}
+        for(int j = 27; j < 36; j++){board = board + tile4[j];}
+        for(int j = 27; j < 36; j++){board = board + tile5[j];}
+        for(int j = 27; j < 36; j++){board = board + tile6[j];}
+        for(int j = 27; j < 36; j++){board = board + tile7[j];}
+        for(int j = 27; j < 36; j++){board = board + tile8[j];}
+        board = board + "\n";
+        if(i == 0){
+            board = board + "    ";
+        }else if(i == 1){
+            board = board + "    ";
+        }else if(i == 2){
+            board = board + "    ";
+        }else if(i == 3){
+            board = board + "    ";
+        }else if(i == 4){
+            board = board + "    ";
+        }else if(i == 5){
+            board = board + "    ";
+        }else if(i == 6){
+            board = board + "    ";
+        }else if(i == 7){
+            board = board + "    ";
+        }else if(i == 9){
+            board = board + "    ";
+        }
+        for(int j = 36; j < 45; j++){board = board + tile1[j];}
+        for(int j = 36; j < 45; j++){board = board + tile2[j];}
+        for(int j = 36; j < 45; j++){board = board + tile3[j];}
+        for(int j = 36; j < 45; j++){board = board + tile4[j];}
+        for(int j = 36; j < 45; j++){board = board + tile5[j];}
+        for(int j = 36; j < 45; j++){board = board + tile6[j];}
+        for(int j = 36; j < 45; j++){board = board + tile7[j];}
+        for(int j = 36; j < 45; j++){board = board + tile8[j];}
+        board = board + "\n";
+    }
+    cout << board << "\n";
+}
 
 int main () {
-    
+// Welcome
+cout << "***********************************************\n";
+cout << " ________ .__\n";
+cout << "\\_   ___ \\|  _|__   ____   ______ ______\n";
+cout << "/    \\  \\/|  |  \\_/ __ \\ /  ___//  ___/\n";
+cout << "\\     \\___|   Y  \\  ___/ \\___ \\ \\___ \\\n";
+cout << " \\______  /___|  /\\___  >____  >____  >\n";
+cout << "        \\/     \\/     \\/     \\/     \\/\n\n";
+cout << "***********************************************\n\n";
+cout << "By James Yu, Jordan Harvey-Morgan, Ransom Contant, Wayne Stevens, and Yufei\n\n";
+
+cout << "Black is on Top and White is on the Bottom\n\n";
+
+
 // initialize board
-    
+
     std::string c;
+    std::string boardDisplay;
     std::vector<std::vector<Piece*> > board;
     for(int y = 0; y < 8; y++)
     {
@@ -230,37 +536,34 @@ int main () {
 
     
 //Play the game
+        std::string instruction;
     int init_x, init_y, end_x, end_y;
     bool checked, checkmate = false;
     std::string colorChecked = "none";
     char transform;
     std::string turn = "white";
     while(true) {
-        //print out board
-        cout << "  0 1 2 3 4 5 6 7\n";
-        for(int x = 0; x < 8; x++){
-            cout << x << " ";
-            for(int y = 0; y < 8; y++) {
-                cout << board[x][y]->getName() << ' ';
-            }
-                cout << "\n";
+        cout << "\n\nIt's " << turn << "'s turn\n\n";
+        displayBoard(board);
+        cout << "Select Your Piece: ";
+        cin >> instruction;
+        std::string::size_type sz;
+        convert(instruction[0], instruction[1] - 48, init_x, init_y);
 
-        }
-        cout << "Please input the initial x coordinate: ";
-        cin >> init_x;
-        cout << "Please input the initial y coordinate: ";
-        cin >> init_y;
         board[init_y][init_x] -> updateMoves(board);
         vector<Square> pMA = board[init_y][init_x] -> getMoves();
+        cout << "Possible moves: ";
         for(auto & pM : pMA) {
-            cout << "Possible moves; x: " << pM.x << ", y: " << pM.y << endl;
+            char a;
+            int b;
+            convert(pM.x, pM.y, a, b);
+            cout << a <<  b << ", ";
         }
-        cout << "Please input the destination x coordinate: ";
-        cin >> end_x;
-        cout << "Please input the destination y coordinate: ";
-        cin >> end_y;
+        cout << "\nSelect Your Destination: ";
+        cin >> instruction;
+        convert(instruction[0], instruction[1] - 48, end_x, end_y);
+
         move(board, init_x, init_y, end_x, end_y, checked, colorChecked, turn);
-        cout << "Turn: " << turn << "\n";
 
         //check if a pawn has made it to the end of the board
         if(board[end_y][end_x] -> getName() == 'p' || board[end_y][end_x] -> getName() == 'P') {
