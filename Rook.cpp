@@ -28,7 +28,7 @@ void Rook::updateMoves(std::vector<std::vector<Piece*> > board) {
         int poss_y[2] = {position.y + i, position.y - i};
 
         // check to see if potential row and column pair is valid
-        if(validPosition(poss_x[0], position.y)) {
+        if(validPosition(poss_x[0], position.y)&& !stopE) {
             if(board[position.y][poss_x[0]] -> getColor() == player) {
                 stopE = true;
             } else if(board[position.y][poss_x[0]] -> getColor() != "none") {
@@ -39,7 +39,7 @@ void Rook::updateMoves(std::vector<std::vector<Piece*> > board) {
                 moveList.push_back(Square(poss_x[0], position.y));
             }
         }
-        if(validPosition(poss_x[1], position.y)) {
+        if(validPosition(poss_x[1], position.y)&&!stopW) {
             if(board[position.y][poss_x[1]] -> getColor() == player) {
                 stopW = true;
             } else if(board[position.y][poss_x[1]]-> getColor() != "none") {
@@ -50,7 +50,7 @@ void Rook::updateMoves(std::vector<std::vector<Piece*> > board) {
                 moveList.push_back(Square(poss_x[1], position.y));
             }
         }
-        if(validPosition(position.x, poss_y[0])) {
+        if(validPosition(position.x, poss_y[0])&&!stopN) {
             if(board[poss_y[0]][position.x] -> getColor() == player) {
                 stopN = true;
             } else if(board[poss_y[0]][position.x] -> getColor() != "none") {
@@ -61,7 +61,7 @@ void Rook::updateMoves(std::vector<std::vector<Piece*> > board) {
                 moveList.push_back(Square(position.x, poss_y[0]));
             }
         }
-        if(validPosition(position.x, poss_y[1])) {
+        if(validPosition(position.x, poss_y[1])&&!stopS) {
             if(board[poss_y[1]][position.x] -> getColor() == player) {
                 stopS = true;
             } else if(board[poss_y[1]][position.x] -> getColor() != "none") {

@@ -18,14 +18,15 @@ Bishop::Bishop(Square square, std::string color) {
 
 void Bishop::updateMoves(std::vector<std::vector<Piece*> > board) {
     // These are the possible X values and Y values that the new square can take
+
+    bool stopN, stopS, stopE, stopW = false;
     moveList.clear();
     for(int i = 1; i < 8; i++) {
-        bool stopN, stopS, stopE, stopW = false;
         int poss_x[2] = {position.x + i, position.x - i};
         int poss_y[2] = {position.y + i, position.y - i};
 
         // check to see if potential row and column pair is valid
-        if(validPosition(poss_y[0], poss_x[0])) {
+        if(validPosition(poss_y[0], poss_x[0])&&!stopE) {
             if(board[poss_y[0]][poss_x[0]] -> getColor() == player) {
                 stopE = true;
             } else if(board[poss_y[0]][poss_x[0]] -> getColor() != "none") {
@@ -36,7 +37,7 @@ void Bishop::updateMoves(std::vector<std::vector<Piece*> > board) {
                 moveList.push_back(Square(poss_x[0], poss_y[0]));
             }
         }
-        if(validPosition(poss_x[0], poss_y[1])) {
+        if(validPosition(poss_x[0], poss_y[1])&&!stopW) {
             if(board[poss_y[1]][poss_x[0]] -> getColor() == player) {
                 stopW = true;
             } else if(board[poss_y[1]][poss_x[0]] -> getColor() != "none") {
@@ -47,7 +48,7 @@ void Bishop::updateMoves(std::vector<std::vector<Piece*> > board) {
                 moveList.push_back(Square(poss_x[0], poss_y[1]));
             }
         }
-        if(validPosition(poss_x[1], poss_y[0])) {
+        if(validPosition(poss_x[1], poss_y[0])&&!stopS) {
             if(board[poss_y[0]][poss_x[1]]  -> getColor() == player) {
                 stopS = true;
             } else if(board[poss_y[0]][poss_x[1]] -> getColor() != "none") {
@@ -58,7 +59,7 @@ void Bishop::updateMoves(std::vector<std::vector<Piece*> > board) {
                 moveList.push_back(Square(poss_x[1], poss_y[0]));
             }
         }
-        if(validPosition(poss_x[1], poss_y[1])) {
+        if(validPosition(poss_x[1], poss_y[1])&&!stopN) {
             if(board[poss_y[1]][poss_x[1]] -> getColor() == player) {
                 stopN = true;
             } else if(board[poss_y[1]][poss_x[1]] -> getColor() != "none") {
