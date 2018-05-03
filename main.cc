@@ -105,8 +105,8 @@ bool checkMate(std::vector<std::vector<Piece*> > b, std::string & colorChecked) 
         std::vector<Square> moves = p -> getMoves();
         for(auto & m : moves) {
             Piece * last = b[m.y][m.x];
-            Square initial = p ->getPosition();
-            b[initial.y][initial.x]->moveTo(m);
+            Square initial = p -> getPosition();
+            b[initial.y][initial.x]-> moveTo(m);
             b[m.y][m.x] = b[initial.y][initial.x];
             b[initial.y][initial.x] = new Piece(initial, "none");
 
@@ -114,11 +114,10 @@ bool checkMate(std::vector<std::vector<Piece*> > b, std::string & colorChecked) 
             color = colorChecked;
 
             //revert changes
-            b[m.y][m.x]-> moveTo(p -> getPosition());
+            b[m.y][m.x]-> moveTo(initial);
             b[initial.y][initial.x] = b[m.y][m.x];
             b[m.y][m.x] = last;
-            if(canMove) {
-                cout << "You can move to: " << m.x << ", " << m.y << "\n";
+            if(!canMove) {
                 return false;
             }
         }
@@ -158,7 +157,6 @@ void move(std::vector<std::vector<Piece*> > & b, int init_x, int init_y, int end
     bool moved = false;
     Square dest(end_x, end_y);
     Square initial(init_x, init_y);
-    cout << b[init_y][init_x] -> getColor();
     if(b[init_y][init_x] -> getColor() != turn){
         cout << "That's not your piece!\n";
         return;
@@ -571,6 +569,18 @@ cout << "Black is on Top and White is on the Bottom\n\n";
     while(true) {
         cout << "\n\nIt's " << turn << "'s turn\n\n";
         displayBoard(board);
+        if(checkmate) {
+            cout << "Checkmate!";
+            if(colorChecked == "white") {
+                cout << " Black has Won!" << std::flush;
+                while(true){};
+            } else {
+                cout << " White has Won!" << std::flush;
+                while(true){};
+            }
+        }else if (checked){
+            cout << "Check!\n";
+        }
         do {
         cout << "Select Your Piece: ";
         cin >> instruction;
@@ -600,7 +610,7 @@ cout << "Black is on Top and White is on the Bottom\n\n";
         //check if a pawn has made it to the end of the board
         if(board[end_y][end_x] -> getName() == 'p' || board[end_y][end_x] -> getName() == 'P') {
             if (end_y == 0 && board[end_y][end_x] -> getColor() == "white" || end_y == 7 && board[end_y][end_x] -> getColor() == "black" ) {
-                cout << "Please choose what piece you would like to transform you pawn into: ";
+                cout << "Please choose what piece you would like to transform you pawn into(Q, R, N, or B): ";
                 cin >> transform;
                 if(transform == 'R') {
                     Rook* r = new Rook(board[end_y][end_x] -> getPosition(), board[end_y][end_x] -> getColor());
@@ -620,17 +630,6 @@ cout << "Black is on Top and White is on the Bottom\n\n";
         checked = check(board, colorChecked);
         if(checked) {
             checkmate = checkMate(board, colorChecked);
-            if(checkmate) {
-                cout << "Checkmate!";
-                if(colorChecked == "white") {
-                    cout << " Black has Won";
-                } else {
-                    cout << " White has won";
-                }
-                break;
-            }else {
-                cout << "Check!\n";
-            }
         }
 
     }
