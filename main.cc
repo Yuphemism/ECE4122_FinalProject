@@ -73,7 +73,6 @@ bool check(std::vector<std::vector<Piece*> > b, std::string & colorChecked) {
         }
     }
     //check if black king is in check
-    cout << blackKLoc.x << "," << blackKLoc.y << " ";
     for(auto &wP : whiteP) {
         wP -> updateMoves(b);
         std::vector<Square> whitePMoves = wP -> getMoves();
@@ -157,6 +156,7 @@ void move(std::vector<std::vector<Piece*> > & b, int init_x, int init_y, int end
     bool moved = false;
     Square dest(end_x, end_y);
     Square initial(init_x, init_y);
+    Piece *last = b[end_y][end_x];;
     if(b[init_y][init_x] -> getColor() != turn){
         cout << "That's not your piece!\n";
         return;
@@ -165,7 +165,6 @@ void move(std::vector<std::vector<Piece*> > & b, int init_x, int init_y, int end
         b[init_y][init_x] -> updateMoves(b);
         std::vector<Square> possibleM = b[init_y][init_x] -> getMoves();
         Square dest(end_x, end_y);
-        Piece *last = b[end_y][end_x];;
         for(auto &pM : possibleM) {
             if(pM == dest) {
                 // testing
@@ -218,9 +217,17 @@ void move(std::vector<std::vector<Piece*> > & b, int init_x, int init_y, int end
 
 
             b[end_y][end_x] = b[init_y][init_x];
-
+            std::string color;
             b[init_y][init_x] = new Piece(initial, "none");
             moved = true;
+            bool dM = check(b, color);
+            //if you moved into check move back
+            if(dM && color == turn){
+                b[end_y][end_x] -> moveTo(initial);
+                b[init_y][init_x] = b[end_y][end_x];
+                b[end_y][end_x] = last;
+                moved = false;
+            }
 
             // break out of the loop if move is valid
             break;
