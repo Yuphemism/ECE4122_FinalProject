@@ -116,6 +116,9 @@ bool checkMate(std::vector<std::vector<Piece*> > b, std::string & colorChecked) 
             b[m.y][m.x]-> moveTo(initial);
             b[initial.y][initial.x] = b[m.y][m.x];
             b[m.y][m.x] = last;
+            if(b[initial.y][initial.x] -> getName() == 'P'||b[initial.y][initial.x] -> getName() == 'P'=='p'){
+                ((Pawn*)b[initial.y][initial.x]) -> moved = false;
+            }
             if(!canMove) {
                 return false;
             }
@@ -190,6 +193,9 @@ void move(std::vector<std::vector<Piece*> > & b, int init_x, int init_y, int end
             b[end_y][end_x] -> moveTo(initial);
             b[init_y][init_x] = b[end_y][end_x];
             b[end_y][end_x] = last;
+            if(b[init_y][init_x] -> getName() == 'P'||b[init_y][init_x] -> getName() == 'P'=='p'){
+                ((Pawn*)b[init_y][init_x]) -> moved = false;
+            }
             if(turn == "white") {
                 turn = "black";
             }else  {
@@ -227,6 +233,9 @@ void move(std::vector<std::vector<Piece*> > & b, int init_x, int init_y, int end
                 b[init_y][init_x] = b[end_y][end_x];
                 b[end_y][end_x] = last;
                 moved = false;
+                if(b[init_y][init_x] -> getName() == 'P'||b[init_y][init_x] -> getName() == 'P'=='p'){
+                    ((Pawn*)b[init_y][init_x]) -> moved = false;
+                }
             }
 
             // break out of the loop if move is valid
