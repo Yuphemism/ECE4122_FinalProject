@@ -77,9 +77,7 @@ bool check(std::vector<std::vector<Piece*> > b, std::string & colorChecked) {
     for(auto &wP : whiteP) {
         wP -> updateMoves(b);
         std::vector<Square> whitePMoves = wP -> getMoves();
-        cout << " " << wP ->getName() << ": ";
         for(auto & pM : whitePMoves) {
-            cout << pM.x << "," << pM.y << " ";
             if(blackKLoc == pM) {
                 checked = true;
                 colorChecked = "black";
@@ -114,14 +112,15 @@ bool checkMate(std::vector<std::vector<Piece*> > b, std::string & colorChecked) 
 
             canMove = check(b, color);
             color = colorChecked;
-            if(canMove) {
-                return false;
-            }
 
             //revert changes
             b[m.y][m.x]-> moveTo(p -> getPosition());
             b[initial.y][initial.x] = b[m.y][m.x];
             b[m.y][m.x] = last;
+            if(canMove) {
+                cout << "You can move to: " << m.x << ", " << m.y << "\n";
+                return false;
+            }
         }
 
     }
